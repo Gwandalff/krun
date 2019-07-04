@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export NO_MSRS=1
-export ENABLE_JAVA=1
+#export ENABLE_JAVA=1
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 export BENCH_OPTS=--no-tickless-check
 
