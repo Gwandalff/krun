@@ -13,7 +13,12 @@ make java-bench
 cd ..
 
 cd ~/krun
+
+echo "I'ME HERE"
+pwd
+echo "I CLEAN"
 make clean
+echo "I BUILD"
 make JAVA_CPPFLAGS='"-I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux"' JAVA_LDFLAGS=-L${JAVA_HOME}/lib ENABLE_JAVA=1
 
 cd examples
