@@ -484,6 +484,28 @@ $ python krun.py --dump-reboots examples/example_results.json.bz2
 8
 ```
 
+## Problem Solving
+
+### `java.lang.UnsatisfiedLinkError` Error
+
+Finding the following strack trace in the logs during a benchmark is a sign that something has not been compiled with the ENABLE_JAVA option set to 1. 
+
+```
+Exception in thread "main" java.lang.UnsatisfiedLinkError: IterationsRunner.JNI_krun_init()V
+	at IterationsRunner.JNI_krun_init(Native Method)
+	at IterationsRunner.main(iterations_runner.java:248)
+```
+
+The solution is to clean and reexecute the makefile located at the root of the repository with the java options properly defined, then to clean and rebuild the benchmarks.
+
+```bash
+make
+make JAVA_CPPFLAGS='"-I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux"' JAVA_LDFLAGS=-L${JAVA_HOME}/lib ENABLE_JAVA=1
+cd examples/benchmarks
+make
+make java-bench
+```
+
 
 ## Unit Tests
 
