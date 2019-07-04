@@ -9,7 +9,7 @@ sudo apt install -y virt-what python-cffi build-essential cpufrequtils cpuset li
 make
 cd examples/benchmarks
 make
-make java-bench
+#make java-bench
 cd ..
 
 cd ~/krun
@@ -22,6 +22,6 @@ echo "I BUILD"
 make JAVA_CPPFLAGS='"-I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux"' JAVA_LDFLAGS=-L${JAVA_HOME}/lib ENABLE_JAVA=1
 
 cd examples
-
+make java-bench
 ../krun.py java.krun $BENCH_OPTS
 
