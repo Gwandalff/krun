@@ -33,7 +33,7 @@ ITERATIONS_ALL_VMS = 2  # Small number for testing.
 
 VMS = {
     'Java': {
-        'vm_def': JavaVMDef(JAVA_BIN),
+        'vm_def': JavaJarVMDef(JAVA_BIN, '/tmp/yolo.jar'),
         'variants': ['default-java'],
         'n_iterations': ITERATIONS_ALL_VMS,
     }

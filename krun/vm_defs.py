@@ -400,6 +400,8 @@ class GenericScriptingVMDef(BaseVMDef):
         if not os.path.exists(script_path):
             fatal("Benchmark file non-existent: %s" % script_path)
 
+
+
 class JavaVMDef(BaseVMDef):
     INSTR_MARKER = "@@@ JDK_EVENTS: "
 
@@ -427,19 +429,14 @@ class JavaVMDef(BaseVMDef):
             EnvChangeAppend("CLASSPATH", bench_dir),
         ]
 
-        if 'additional_jar' in self.conf:
-            bench_env_changes += EnvChangeAppend("CLASSPATH", self.conf['additional_jar'])
-
-        print(dir(self.conf))
+        if hasattr(self, 'extra_vm_args'):
+            bench_env_changes += EnvChangeAppend("CLASSPATH", self.extra_vm_args)
 
         print(bench_env_changes)
-
 
         args = [self.vm_path] + self.extra_vm_args
         args += [self.iterations_runner, entry_point.target,
                  str(iterations), str(param)]
-
-        print(args)
 
         return self._run_exec(args, heap_lim_k, stack_lim_k, key,
                               key_pexec_idx,
@@ -483,6 +480,14 @@ class JavaVMDef(BaseVMDef):
             iter_num += 1
 
         return {"raw_vm_events": iter_data}
+
+
+class JavaJarVMDef(JavaVMDef):
+    def __init__(self, vm_path, extra_jar, env=None, instrument=False):
+        self.vm_path = vm_path
+        self.extra_vm_args = []
+        self.extra_jar = extra_jar
+        BaseVMDef.__init__(self, "IterationsRunner", env=env, instrument=instrument)
 
 
 def find_internal_jvmci_java_home(base_dir):
