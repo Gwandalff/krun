@@ -430,7 +430,7 @@ class JavaVMDef(BaseVMDef):
         ]
 
         if hasattr(self, 'extra_vm_args'):
-            bench_env_changes += EnvChangeAppend("CLASSPATH", self.extra_vm_args)
+            bench_env_changes.append(EnvChangeAppend("CLASSPATH", self.extra_vm_args))
 
         print(bench_env_changes)
 
