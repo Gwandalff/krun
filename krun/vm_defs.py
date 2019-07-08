@@ -430,7 +430,8 @@ class JavaVMDef(BaseVMDef):
 
 
 
-        args = [self.vm_path] + [self.config.ABCD] if (hasattr(self.config, 'ABCD')) else [] + self.extra_vm_args
+        args = [self.vm_path] + \
+               [self.config.VMS['additional_jar']] if ('additional_jar' in self.config.VMS) else [] + self.extra_vm_args
         args += [self.iterations_runner, entry_point.target,
                  str(iterations), str(param)]
 
