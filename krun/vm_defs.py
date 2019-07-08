@@ -431,6 +431,9 @@ class JavaVMDef(BaseVMDef):
         args += [self.iterations_runner, entry_point.target,
                  str(iterations), str(param)]
 
+
+        print('>>>>>>>>>>>', args)
+
         return self._run_exec(args, heap_lim_k, stack_lim_k, key,
                               key_pexec_idx,
                               bench_env_changes=bench_env_changes,
