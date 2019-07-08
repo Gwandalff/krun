@@ -427,8 +427,10 @@ class JavaVMDef(BaseVMDef):
             EnvChangeAppend("CLASSPATH", bench_dir),
         ]
 
-        if 'additional_jar' in self.config.VMS:
-            bench_env_changes += EnvChangeAppend("CLASSPATH", self.config.VMS['additional_jar'])
+        if 'additional_jar' in self.conf:
+            bench_env_changes += EnvChangeAppend("CLASSPATH", self.conf['additional_jar'])
+
+        print(dir(self.conf))
 
         print(bench_env_changes)
 
