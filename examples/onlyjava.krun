@@ -41,8 +41,7 @@ VMS = {
 
 
 BENCHMARKS = {
-    'fannkuch_redux': 100,
-    'nbody': 15,
+    'boa_interpreter_fib': 2,
 }
 
 # list of "bench:vm:variant"

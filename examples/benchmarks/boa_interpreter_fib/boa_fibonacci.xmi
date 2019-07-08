@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ASCII"?>
+<boa:File xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:boa="http://www.example.org/boa">
+  <commands xsi:type="boa:Def" name="fib">
+    <expr xsi:type="boa:BObject">
+      <fields name="app">
+        <value xsi:type="boa:Fun" name="n">
+          <body xsi:type="boa:If">
+            <cond xsi:type="boa:CmpOpLess">
+              <lhs xsi:type="boa:Var" name="n"/>
+              <rhs xsi:type="boa:Int" value="3"/>
+            </cond>
+            <thn xsi:type="boa:Int" value="1"/>
+            <els xsi:type="boa:ArithOpPlus">
+              <lhs xsi:type="boa:App">
+                <lhs xsi:type="boa:Project" name="app">
+                  <exp xsi:type="boa:This"/>
+                </lhs>
+                <rhs xsi:type="boa:ArithOpMinus">
+                  <lhs xsi:type="boa:Var" name="n"/>
+                  <rhs xsi:type="boa:Int" value="1"/>
+                </rhs>
+              </lhs>
+              <rhs xsi:type="boa:App">
+                <lhs xsi:type="boa:Project" name="app">
+                  <exp xsi:type="boa:This"/>
+                </lhs>
+                <rhs xsi:type="boa:ArithOpMinus">
+                  <lhs xsi:type="boa:Var" name="n"/>
+                  <rhs xsi:type="boa:Int" value="2"/>
+                </rhs>
+              </rhs>
+            </els>
+          </body>
+        </value>
+      </fields>
+    </expr>
+  </commands>
+  <commands xsi:type="boa:App">
+    <lhs xsi:type="boa:Project" name="app">
+      <exp xsi:type="boa:Var" name="fib"/>
+    </lhs>
+    <rhs xsi:type="boa:Int" value="30"/>
+  </commands>
+</boa:File>
