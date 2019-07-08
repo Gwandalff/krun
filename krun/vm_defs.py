@@ -484,10 +484,8 @@ class JavaVMDef(BaseVMDef):
 
 class JavaJarVMDef(JavaVMDef):
     def __init__(self, vm_path, extra_jar, env=None, instrument=False):
-        self.vm_path = vm_path
-        self.extra_vm_args = []
         self.extra_jar = extra_jar
-        BaseVMDef.__init__(self, "IterationsRunner", env=env, instrument=instrument)
+        JavaVMDef.__init__(self, vm_path, env=env, instrument=instrument)
 
 
 def find_internal_jvmci_java_home(base_dir):

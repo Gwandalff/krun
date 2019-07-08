@@ -1,5 +1,5 @@
 import os
-from krun.vm_defs import (JavaVMDef)
+from krun.vm_defs import (JavaVMDef, JavaJarVMDef)
 from krun import EntryPoint
 from krun.util import fatal
 from distutils.spawn import find_executable
