@@ -427,12 +427,14 @@ class JavaVMDef(BaseVMDef):
             EnvChangeAppend("CLASSPATH", bench_dir),
         ]
 
-        args = [self.vm_path] + self.extra_vm_args
+
+
+
+        args = [self.vm_path] + [self.config.ABCD] if (hasattr(self.config, 'ABCD')) else [] + self.extra_vm_args
         args += [self.iterations_runner, entry_point.target,
                  str(iterations), str(param)]
 
-
-        print('>>>>>>>>>>>', args)
+        print(args)
 
         return self._run_exec(args, heap_lim_k, stack_lim_k, key,
                               key_pexec_idx,
