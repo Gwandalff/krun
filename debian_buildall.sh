@@ -2,7 +2,7 @@
 
 #export NO_MSRS=1
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-export BENCH_OPTS=--no-tickless-check 
+export BENCH_OPTS="" #--no-tickless-check 
 
 git clean -fxd
 sudo apt install -y virt-what python-cffi build-essential cpufrequtils cpuset linux-headers-4.9.0-9-all util-linux msr-tools policykit-1 openjdk-8-jdk
