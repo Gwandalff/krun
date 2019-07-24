@@ -1,0 +1,58 @@
+import os
+from krun.vm_defs import (JavaVMDef, JavaJarVMDef)
+
+
+JVMS_FOLDER = "/home/benchmarks/jvms/"
+BENCH_FOLDER = "/home/benchmarks/benchmark/"
+
+ITERATIONS_ALL_VMS = 1  # Small number for testing.
+ITERATION_PER_BENCH = 2
+N_EXECUTIONS = 3  # Number of fresh processes.
+
+VMS = {}
+SKIP = []
+BENCHMARKS = {}
+
+jvms = ["hotspot-8u222-b10", "hotspot_11.0.4", "hotspot_12.0.2", "openj9_8u222-b10", "openj9_11.0.4", "openj9_12.0.1", "graalvm-ce-19.1.1", "graalvm-ee-19.1.1"]
+
+languages = ["boa", "fsm", "logo", "minijava"]
+
+# wait for the maven install of the truffle benchmarks
+patterns = ["interpreter", "revisitor", "switch", "visitor"]
+#patterns = ["interpreter", "revisitor", "switch", "visitor", "truffle"]
+
+
+
+f = open("bench_list.txt","r")
+content = f.read()
+f.close()
+
+benchs_names = content.split(";")
+for bench in benchs_name:
+	BENCHMARKS[bench] = ITERATION_PER_BENCH
+
+for jvm in jvms:
+	for lang in languages:
+		for pattern in patterns:
+			name = lang + "_" + pattern + "_" + jvm
+			krun_vm = {
+				'vm_def': JavaJarVMDef(JVMS_FOLDER+jvm+".jar", BENCH_FOLDER+lang+"/"+pattern+"/benchmarks.jar"),
+        			'variants': ['default-java'],
+        			'n_iterations': 1 #ITERATIONS_ALL_VMS,
+			}
+			VMS[name] = krun_vm
+			for bench in BENCHMARKS:
+				if lang not in bench or ("_"+pattern) not in bench or (pattern == "truffle" and "graal" not in jvm):
+					SKIP.append(str(bench)+":"+str(name)+":*")
+
+#for key in VMS:
+#	print(key + " : ")
+#	print(VMS[key])
+
+#for s in SKIP:
+#	print(s)
+
+execfile("onlyjava.krun", globals())
+
+
+
