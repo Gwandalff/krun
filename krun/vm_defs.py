@@ -485,8 +485,6 @@ class JavaVMDef(BaseVMDef):
 class JavaJarVMDef(JavaVMDef):
     def __init__(self, vm_path, extra_jar, env=None, instrument=False):
         self.extra_jar = extra_jar
-	self.extra_vm_args.append("-Xms4G")
-	self.extra_vm_args.append("-Xmx4G")
         JavaVMDef.__init__(self, vm_path, env=env, instrument=instrument)
 
 

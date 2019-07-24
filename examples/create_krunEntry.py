@@ -21,6 +21,7 @@ public class KrunEntry
         .resultFormat(ResultFormatType.JSON)
         .result("/home/benchmarks/results/{name}_" + System.currentTimeMillis() + ".json")
         .param("program", new String[] {{ "/home/benchmarks/programs/{name}.xmi" }})
+	.jvmArgs("-Xms4G", "-Xmx4G")
         .build();
     try
     {{
@@ -67,10 +68,7 @@ for testName in testNames:
 		f.close
 
 		javac = ["javac","-cp",BENCH_FOR_JMH+":../iterations_runners/", KRUN_ENTRY_DIR+"KrunEntry.java"]
-		rm = ["rm", KRUN_ENTRY_DIR+"KrunEntry.java"]
 		proc = subprocess.Popen(javac)
-		proc.wait()
-		subprocess.Popen(rm)
 
 f = open("bench_list.txt","w+",0)
 f.write(";".join(benchs))
