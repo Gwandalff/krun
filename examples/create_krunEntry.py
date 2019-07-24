@@ -41,11 +41,9 @@ patterns = ["interpreter", "revisitor", "switch", "visitor"]
 
 BENCH_FOR_JMH = "/home/benchmarks/benchmark/boa/interpreter/benchmarks.jar"
 
-ITERATION_PER_BENCH = 2
-
-BENCHMARKS = {}
-
 testNames = map(extractTestName, os.listdir("/home/benchmarks/programs/"))
+
+benchs = []
 
 for testName in testNames:
 	testInfos = testName.split("_")
@@ -54,20 +52,31 @@ for testName in testNames:
 
 	for pattern in patterns:
 		krunName = lang+"_"+pattern+"_"+test
-		BENCHMARKS[krunName] = ITERATION_PER_BENCH
-
+		benchs.append(krunName)
 		KRUN_ENTRY_DIR = "./benchmarks/"+krunName+"/java/"
 	
 		if not os.path.exists(KRUN_ENTRY_DIR):
 			os.makedirs(KRUN_ENTRY_DIR)
 			
-		f= open(KRUN_ENTRY_DIR+"KrunEntry.java","w+")
+		f= open(KRUN_ENTRY_DIR+"KrunEntry.java","w+",0)
 		
 		fqn = "fr.mleduc." + lang + "." + lang.capitalize() + pattern.capitalize()+ "Benchmark." + lang + "Interpreter"
 
 		tmp = MODEL.format(fullQualifiedInterpreter=fqn, name=krunName)
 		f.write(tmp)
 		f.close
-		command = "javac -cp "+BENCH_FOR_JMH+":../iterations_runners/ " + KRUN_ENTRY_DIR+"KrunEntry.java"
-		print(command)
-		subprocess.run(command, shell=True)
+
+		javac = ["javac","-cp",BENCH_FOR_JMH+":../iterations_runners/", KRUN_ENTRY_DIR+"KrunEntry.java"]
+		rm = ["rm", KRUN_ENTRY_DIR+"KrunEntry.java"]
+		proc = subprocess.Popen(javac)
+		proc.wait()
+		subprocess.Popen(rm)
+
+f = open("bench_list.txt","w+",0)
+f.write(";".join(benchs))
+f.close()
+
+
+
+
+

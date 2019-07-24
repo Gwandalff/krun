@@ -24,16 +24,16 @@ STACK_LIMIT = 8192  # KiB
 
 PRE_EXECUTION_CMDS = [
     "sudo systemctl stop cron",
-    "sudo systemctl stop atd",
     "sudo systemctl stop ssh",
-    "sudo systemctl stop exim4"
+    "sudo systemctl stop exim4",
+	"ip link set eno1 down"
 ]
 
 POST_EXECUTION_CMDS = [
     "sudo systemctl start cron || true",
-    "sudo systemctl start atd || true",
     "sudo systemctl start ssh || true",
-    "sudo systemctl start exim4 || true"
+    "sudo systemctl start exim4 || true",
+	"ip link set eno1 up"
 ]
 
 

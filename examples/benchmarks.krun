@@ -1,8 +1,15 @@
+import os
+from krun.vm_defs import (JavaVMDef, JavaJarVMDef)
+
+
 JVMS_FOLDER = "/home/benchmarks/jvms/"
 BENCH_FOLDER = "/home/benchmarks/benchmark/"
 
+ITERATION_PER_BENCH = 2
+
 VMS = {}
 SKIP = []
+BENCHMARKS = {}
 
 jvms = ["hotspot-8u222-b10", "hotspot_11.0.4", "hotspot_12.0.2", "openj9_8u222-b10", "openj9_11.0.4", "openj9_12.0.1", "graalvm-ce-19.1.1", "graalvm-ee-19.1.1"]
 
@@ -12,20 +19,24 @@ languages = ["boa", "fsm", "logo", "minijava"]
 patterns = ["interpreter", "revisitor", "switch", "visitor"]
 #patterns = ["interpreter", "revisitor", "switch", "visitor", "truffle"]
 
-BENCHMARKS = {
-    'boa_interpreter_fib': 2,
-}
+
+
+f = open("bench_list.txt","r")
+content = f.read()
+f.close()
+
+benchs_names = content.split(";")
+for bench in benchs:
+	BENCHMARKS[bench] = ITERATION_PER_BENCH
 
 for jvm in jvms:
 	for lang in languages:
 		for pattern in patterns:
 			name = lang + "_" + pattern + "_" + jvm
 			krun_vm = {
-				#'vm_def': JavaJarVMDef(JVMS_FOLDER+jvm+".jar", BENCH_FOLDER+lang+"/"+pattern+"/benchmarks.jar"),
-				'JAVA_BIN': JVMS_FOLDER+jvm+"/bin/java",
-				'Bench' : BENCH_FOLDER+lang+"/"+pattern+"/benchmarks.jar",
-        		'variants': ['default-java'],
-        		'n_iterations': 1 #ITERATIONS_ALL_VMS,
+				'vm_def': JavaJarVMDef(JVMS_FOLDER+jvm+".jar", BENCH_FOLDER+lang+"/"+pattern+"/benchmarks.jar"),
+        			'variants': ['default-java'],
+        			'n_iterations': 1 #ITERATIONS_ALL_VMS,
 			}
 			VMS[name] = krun_vm
 			for bench in BENCHMARKS:
@@ -38,6 +49,8 @@ for key in VMS:
 
 for s in SKIP:
 	print(s)
+
+execfile("onlyjava.krun", globals())
 
 
 
